@@ -32,7 +32,7 @@ struct NewToDoView: View {
             }
         }
         .padding()
-        Spacer()
+        //Spacer()
     }
 }
 
