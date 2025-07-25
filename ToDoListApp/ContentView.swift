@@ -6,10 +6,12 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct ContentView: View {
     
     @State private var showNewTask = false
+    @Query var toDos: [ToDoItem]
     
     var body: some View {
         VStack{
@@ -29,13 +31,25 @@ struct ContentView: View {
             }
             .padding()
             Spacer()
+            
+            List {
+                ForEach(toDos) { toDoItem in
+                    if toDoItem.isImportant {
+                        Text("‼️"+toDoItem.title)
+                    } else {
+                        Text(toDoItem.title)
+                    }
+                }
+            }
+            .listStyle(.plain)
         }
         if (showNewTask){
-            NewToDoView()
+            NewToDoView(toDoItem: ToDoItem(title: "", isImportant: false), showNewTask: $showNewTask)
         }
     }
 }
 
 #Preview {
     ContentView()
+        .modelContainer(for: ToDoItem.self, inMemory: true)
 }
